@@ -10,36 +10,77 @@ class DFDController {
    * Upload SQL file dan generate DFD
    */
   async uploadAndGenerateDFD(req, res) {
+    let filePath = null;
     try {
       // Validasi file
-      validateUpload(req.file);
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: 'No file uploaded. Please upload a SQL file.'
+        });
+      }
 
-      const filePath = req.file.path;
+      validateUpload(req.file);
+      filePath = req.file.path;
       console.log(`✓ File uploaded: ${req.file.originalname}`);
 
       // Parse SQL
-      const database = await sqlParser.parseSQLFile(filePath);
-      console.log(`✓ SQL parsed: ${database.tables.length} tables found`);
+      let database;
+      try {
+        database = await sqlParser.parseSQLFile(filePath);
+        console.log(`✓ SQL parsed: ${database.tables.length} tables found`);
+      } catch (parseError) {
+        console.error('SQL Parse Error:', parseError);
+        return res.status(400).json({
+          success: false,
+          message: `Failed to parse SQL file: ${parseError.message}`,
+          details: parseError.message
+        });
+      }
 
       // Generate DFD levels dengan Mermaid code
-      const dfdData = dfdGenerator.generateAllLevels(database);
-      console.log(`✓ DFD generated: Level 0, 1, 2`);
+      let dfdData;
+      try {
+        dfdData = dfdGenerator.generateAllLevels(database);
+        console.log(`✓ DFD generated: Level 0, 1, 2`);
+      } catch (genError) {
+        console.error('DFD Generation Error:', genError);
+        return res.status(500).json({
+          success: false,
+          message: `Failed to generate DFD: ${genError.message}`
+        });
+      }
 
       // Prepare response
       const timestamp = Date.now();
       const jsonPath = `uploads/dfd_data_${timestamp}.json`;
-      const uploadsDir = path.join(__dirname, '../../uploads');
+      const os = require('os');
+      const uploadsDir = process.env.VERCEL 
+        ? path.join(os.tmpdir(), 'uploads') 
+        : path.join(__dirname, '../../uploads');
+
+      // Create uploads directory if it doesn't exist
+      if (!require('fs').existsSync(uploadsDir)) {
+        require('fs').mkdirSync(uploadsDir, { recursive: true });
+      }
 
       // Save JSON data
       try {
         await mermaidRenderer.exportToJSON(dfdData, path.join(uploadsDir, `dfd_data_${timestamp}.json`));
         console.log(`✓ JSON data saved`);
       } catch (e) {
-        console.log(`⚠ JSON save warning: ${e.message}`);
+        console.warn(`⚠ JSON save warning: ${e.message}`);
+        // Don't fail if JSON save fails
       }
 
       // Cleanup SQL file
-      await fs.promises.unlink(filePath);
+      try {
+        if (filePath && require('fs').existsSync(filePath)) {
+          await require('fs').promises.unlink(filePath);
+        }
+      } catch (e) {
+        console.warn(`⚠ File cleanup warning: ${e.message}`);
+      }
 
       // Return clean response with Mermaid code and detailed statistics
       return res.json({
