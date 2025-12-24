@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DFD Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      margin: 20px;
+      padding: 0;
+      background: white;
+      font-family: Arial, sans-serif;
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 100%;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="mermaid">
+---
+config:
+  layout: elk
+---
+graph TD
+  classDef process fill:#4A90E2,stroke:#2E5C8A,stroke-width:2px,color:#fff
+  classDef dataStore fill:#E8B366,stroke:#A0651F,stroke-width:2px,color:#000
+  classDef externalEntity fill:#7ED321,stroke:#468C15,stroke-width:2px,color:#fff
+
+  P_ps_access["1.0 Manage Ps_access"]
+  class P_ps_access process
+  P_ps_address["1.0 Manage Ps_address"]
+  class P_ps_address process
+  P_ps_attribute["1.0 Manage Ps_attribute"]
+  class P_ps_attribute process
+  P_ps_carrier["1.0 Manage Ps_carrier"]
+  class P_ps_carrier process
+  P_ps_cart["1.0 Manage Ps_cart"]
+  class P_ps_cart process
+  P_ps_customer["1.0 Manage Ps_customer"]
+  class P_ps_customer process
+  P_ps_orders["1.0 Manage Ps_orders"]
+  class P_ps_orders process
+  P_ps_product["1.0 Manage Ps_product"]
+  class P_ps_product process
+  P_ps_product_supplier["1.0 Manage Ps_product_supplier"]
+  class P_ps_product_supplier process
+  P_ps_supplier["1.0 Manage Ps_supplier"]
+  class P_ps_supplier process
+
+  EE_ADMIN["Administrator"]
+  class EE_ADMIN externalEntity
+  EE_USER["End User"]
+  class EE_USER externalEntity
+  EE_SYSTEM["External System"]
+  class EE_SYSTEM externalEntity
+
+  DS_PS_ACCESS[("Ps_access")]
+  class DS_PS_ACCESS dataStore
+  DS_PS_ADDRESS[("Ps_address")]
+  class DS_PS_ADDRESS dataStore
+  DS_PS_ATTRIBUTE[("Ps_attribute")]
+  class DS_PS_ATTRIBUTE dataStore
+  DS_PS_CARRIER[("Ps_carrier")]
+  class DS_PS_CARRIER dataStore
+  DS_PS_CART[("Ps_cart")]
+  class DS_PS_CART dataStore
+  DS_PS_CUSTOMER[("Ps_customer")]
+  class DS_PS_CUSTOMER dataStore
+  DS_PS_ORDERS[("Ps_orders")]
+  class DS_PS_ORDERS dataStore
+  DS_PS_PRODUCT[("Ps_product")]
+  class DS_PS_PRODUCT dataStore
+  DS_PS_PRODUCT_SUPPLIER[("Ps_product_supplier")]
+  class DS_PS_PRODUCT_SUPPLIER dataStore
+  DS_PS_SUPPLIER[("Ps_supplier")]
+  class DS_PS_SUPPLIER dataStore
+
+  EE_ADMIN -->|Request| P_ps_access
+  P_ps_access -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_address
+  P_ps_address -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_attribute
+  P_ps_attribute -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_carrier
+  P_ps_carrier -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_cart
+  P_ps_cart -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_customer
+  P_ps_customer -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_orders
+  P_ps_orders -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_product
+  P_ps_product -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_product_supplier
+  P_ps_product_supplier -->|Response| EE_ADMIN
+  EE_ADMIN -->|Request| P_ps_supplier
+  P_ps_supplier -->|Response| EE_ADMIN
+  EE_USER -->|Request| P_ps_access
+  P_ps_access -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_address
+  P_ps_address -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_attribute
+  P_ps_attribute -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_carrier
+  P_ps_carrier -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_cart
+  P_ps_cart -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_customer
+  P_ps_customer -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_orders
+  P_ps_orders -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_product
+  P_ps_product -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_product_supplier
+  P_ps_product_supplier -->|Response| EE_USER
+  EE_USER -->|Request| P_ps_supplier
+  P_ps_supplier -->|Response| EE_USER
+  EE_SYSTEM -->|Request| P_ps_access
+  P_ps_access -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_address
+  P_ps_address -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_attribute
+  P_ps_attribute -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_carrier
+  P_ps_carrier -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_cart
+  P_ps_cart -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_customer
+  P_ps_customer -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_orders
+  P_ps_orders -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_product
+  P_ps_product -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_product_supplier
+  P_ps_product_supplier -->|Response| EE_SYSTEM
+  EE_SYSTEM -->|Request| P_ps_supplier
+  P_ps_supplier -->|Response| EE_SYSTEM
+  P_ps_access -->|CRUD| DS_PS_ACCESS
+  DS_PS_ACCESS -->|Records| P_ps_access
+  P_ps_address -->|CRUD| DS_PS_ADDRESS
+  DS_PS_ADDRESS -->|Records| P_ps_address
+  P_ps_attribute -->|CRUD| DS_PS_ATTRIBUTE
+  DS_PS_ATTRIBUTE -->|Records| P_ps_attribute
+  P_ps_carrier -->|CRUD| DS_PS_CARRIER
+  DS_PS_CARRIER -->|Records| P_ps_carrier
+  P_ps_cart -->|CRUD| DS_PS_CART
+  DS_PS_CART -->|Records| P_ps_cart
+  P_ps_customer -->|CRUD| DS_PS_CUSTOMER
+  DS_PS_CUSTOMER -->|Records| P_ps_customer
+  P_ps_orders -->|CRUD| DS_PS_ORDERS
+  DS_PS_ORDERS -->|Records| P_ps_orders
+  P_ps_product -->|CRUD| DS_PS_PRODUCT
+  DS_PS_PRODUCT -->|Records| P_ps_product
+  P_ps_product_supplier -->|CRUD| DS_PS_PRODUCT_SUPPLIER
+  DS_PS_PRODUCT_SUPPLIER -->|Records| P_ps_product_supplier
+  P_ps_supplier -->|CRUD| DS_PS_SUPPLIER
+  DS_PS_SUPPLIER -->|Records| P_ps_supplier
+
+    </div>
+  </div>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'linear'
+      }
+    });
+    mermaid.contentLoaded();
+  </script>
+</body>
+</html>

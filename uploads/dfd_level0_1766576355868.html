@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DFD Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      margin: 20px;
+      padding: 0;
+      background: white;
+      font-family: Arial, sans-serif;
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 100%;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="mermaid">
+---
+config:
+  layout: elk
+---
+graph TD
+  classDef process fill:#4A90E2,stroke:#2E5C8A,stroke-width:3px,color:#fff,font-size:14px
+  classDef dataStore fill:#E8B366,stroke:#A0651F,stroke-width:2px,color:#000
+  classDef externalEntity fill:#7ED321,stroke:#468C15,stroke-width:2px,color:#fff
+
+  P0["SYSTEM<br/>Complete System"]
+  class P0 process
+
+  EE_ADMIN["Administrator"]
+  class EE_ADMIN externalEntity
+  EE_USER["End User"]
+  class EE_USER externalEntity
+  EE_SYSTEM["External System"]
+  class EE_SYSTEM externalEntity
+
+  DS_PS_ACCESS[("Ps_access")]
+  class DS_PS_ACCESS dataStore
+  DS_PS_ADDRESS[("Ps_address")]
+  class DS_PS_ADDRESS dataStore
+  DS_PS_ATTRIBUTE[("Ps_attribute")]
+  class DS_PS_ATTRIBUTE dataStore
+  DS_PS_CARRIER[("Ps_carrier")]
+  class DS_PS_CARRIER dataStore
+  DS_PS_CART[("Ps_cart")]
+  class DS_PS_CART dataStore
+  DS_PS_CUSTOMER[("Ps_customer")]
+  class DS_PS_CUSTOMER dataStore
+  DS_PS_ORDERS[("Ps_orders")]
+  class DS_PS_ORDERS dataStore
+  DS_PS_PRODUCT[("Ps_product")]
+  class DS_PS_PRODUCT dataStore
+  DS_PS_PRODUCT_SUPPLIER[("Ps_product_supplier")]
+  class DS_PS_PRODUCT_SUPPLIER dataStore
+  DS_PS_SUPPLIER[("Ps_supplier")]
+  class DS_PS_SUPPLIER dataStore
+
+  EE_ADMIN -->|Request/Query| P0
+  P0 -->|Response/Report| EE_ADMIN
+  EE_USER -->|Request/Query| P0
+  P0 -->|Response/Report| EE_USER
+  EE_SYSTEM -->|Request/Query| P0
+  P0 -->|Response/Report| EE_SYSTEM
+  P0 -->|CRUD Operations| DS_PS_ACCESS
+  DS_PS_ACCESS -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_ADDRESS
+  DS_PS_ADDRESS -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_ATTRIBUTE
+  DS_PS_ATTRIBUTE -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_CARRIER
+  DS_PS_CARRIER -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_CART
+  DS_PS_CART -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_CUSTOMER
+  DS_PS_CUSTOMER -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_ORDERS
+  DS_PS_ORDERS -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_PRODUCT
+  DS_PS_PRODUCT -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_PRODUCT_SUPPLIER
+  DS_PS_PRODUCT_SUPPLIER -->|Data/Records| P0
+  P0 -->|CRUD Operations| DS_PS_SUPPLIER
+  DS_PS_SUPPLIER -->|Data/Records| P0
+
+    </div>
+  </div>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'linear'
+      }
+    });
+    mermaid.contentLoaded();
+  </script>
+</body>
+</html>
