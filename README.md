@@ -313,6 +313,16 @@ PORT=3001
 npm install puppeteer --no-sandbox
 ```
 
+### Deploy ke Vercel ✅
+- Pastikan `vercel.json` ada di root (project sudah terkonfigurasi).
+- Set environment variables di Vercel dashboard:
+  - `NODE_ENV=production`
+  - `PUPPETEER_SKIP_DOWNLOAD=true`
+- Aplikasi secara otomatis mencoba menggunakan `puppeteer-core` + `chrome-aws-lambda` saat berjalan di Vercel; jika Chrome tidak tersedia, akan fallback membuat file HTML dari diagram.
+- Perhatikan bahwa filesystem di Vercel bersifat *ephemeral* (tidak persisten). Untuk penyimpanan permanen gunakan layanan eksternal seperti S3 atau penyimpanan objek lain.
+- Jika menemukan masalah rendering di Vercel, cek log deployment dan pastikan variable diatas sudah diset.
+
+
 ### File Upload Fails
 - Pastikan folder `uploads/` ada dan writable
 - Check file size (max 10MB)

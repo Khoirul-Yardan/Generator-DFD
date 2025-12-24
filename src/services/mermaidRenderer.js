@@ -1,6 +1,20 @@
-const puppeteer = require('puppeteer');
+let puppeteer;
+let chromium;
 const path = require('path');
 const fs = require('fs');
+
+// Use puppeteer-core + chrome-aws-lambda when deployed to Vercel (serverless)
+try {
+  if (process.env.VERCEL) {
+    puppeteer = require('puppeteer-core');
+    chromium = require('chrome-aws-lambda');
+  } else {
+    puppeteer = require('puppeteer');
+  }
+} catch (err) {
+  // If dynamic requires fail, try to fallback to puppeteer
+  try { puppeteer = require('puppeteer'); } catch (e) { /* will throw later if missing */ }
+} 
 
 class MermaidRenderer {
   /**
@@ -190,12 +204,21 @@ class MermaidRenderer {
   async renderToImage(mermaidCode, outputPath, format = 'png') {
     let browser;
     try {
-      // Check if Chrome/Puppeteer is available
-      browser = await puppeteer.launch({
-        headless: 'new',
-        executablePath: undefined,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      });
+        // Build launch options; prefer chrome-aws-lambda when running on Vercel
+      const launchOptions = {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: 'new'
+      };
+
+      if (process.env.VERCEL && chromium) {
+        // Merge chromium-specific args and executable path
+        launchOptions.args = (chromium.args || []).concat(launchOptions.args);
+        launchOptions.executablePath = (await chromium.executablePath) || undefined;
+        launchOptions.defaultViewport = chromium.defaultViewport;
+        launchOptions.headless = chromium.headless;
+      }
+
+      browser = await puppeteer.launch(launchOptions);
 
       const page = await browser.newPage();
       await page.setViewport({ width: 1920, height: 1080 });
